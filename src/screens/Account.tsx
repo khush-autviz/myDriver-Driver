@@ -3,11 +3,15 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Black, DarkGray, Gold, Gray, LightGold, White } from '../constants/Color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { useAuthStore } from '../store/authStore'
 
 export default function Account() {
+
+  const USER = useAuthStore(state => state.user)
+
   return (
     <SafeAreaView style={{backgroundColor: Black, flex: 1, padding: 20}}>
-      <Text style={{color: LightGold, fontSize: 32, fontWeight: '800'}}>John Cena</Text>
+      <Text style={{color: LightGold, fontSize: 32, fontWeight: '800'}}>{USER?.firstName + " " + USER?.lastName}</Text>
       <View style={{backgroundColor: '#fce5fc', marginTop: 20, height: 110, borderRadius: 8, padding: 10}}>
         <Text style={{color: Black, fontSize: 18, fontWeight: '700'}}>Invite friends!</Text>
         <Text style={{color: DarkGray, fontWeight: '500', width: 250, marginTop: 10}}>Invite your friends to earn free points for later use</Text>

@@ -64,12 +64,12 @@ export default function OtpScreen() {
     mutationFn: verifyOtp,
     onSuccess: (response) => {
       console.log('verify otp success', response);
-      if (response.data.user.registrationComplete) {
-        SETUSER(response?.data?.data?.user)
-        navigation.navigate('Main')
-      } else {
+      // if (response.data.user.registrationComplete) {
+      //   SETUSER(response?.data?.data?.user)
+      //   navigation.navigate('Main')
+      // } else {
         navigation.navigate('Signup', {mobileNumber})
-      }
+      // }
     },
     onError: (error) => {
       console.log('veriify otp error', error); 

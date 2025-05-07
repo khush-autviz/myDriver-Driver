@@ -91,7 +91,7 @@ export default function App() {
         ) : null}
 
         {/* Auth Screens */}
-        <Stack.Screen name="Signin" component={Home} />
+        <Stack.Screen name="Signin" component={Signin} />
         {/* <Stack.Screen name="Signin" component={VehicleDocuments} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="OtpScreen" component={OtpScreen} />

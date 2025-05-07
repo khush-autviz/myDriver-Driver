@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,6 +6,8 @@ import {
   Switch,
   ScrollView,
   StatusBar,
+  Platform,
+  Alert,
 } from 'react-native';
 import {
   Black,
@@ -15,83 +17,80 @@ import {
   White,
 } from '../constants/Color';
 import MapView, { Marker } from 'react-native-maps';
+import { request, PERMISSIONS } from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
+
 
 export default function Home() {
-  // State for the toggle switches
   const [isNormalMode, setIsNormalMode] = useState(false);
   const [isDriverMode, setIsDriverMode] = useState(false);
+  const [location, setLocation] = useState<any>(null);
   
   // Function to handle normal mode toggle
   const toggleNormalMode = () => {
-    // If turning on normal mode, turn off driver mode
     if (!isNormalMode) {
       setIsNormalMode(true);
       setIsDriverMode(false);
     } else {
-      // Allow turning off
       setIsNormalMode(false);
     }
   };
   
   // Function to handle driver mode toggle
   const toggleDriverMode = () => {
-    // If turning on driver mode, turn off normal mode
     if (!isDriverMode) {
       setIsDriverMode(true);
       setIsNormalMode(false);
     } else {
-      // Allow turning off
       setIsDriverMode(false);
     }
   };
 
-  // return (
-  //   <>
-  //     <StatusBar backgroundColor={Black} barStyle="light-content" />
-        
-  //       {/* Mode Toggle Section */}
-  //       <View style={styles.toggleContainer}>
-  //         <View style={styles.toggleCard}>
-  //           <Text style={styles.toggleLabel}>Normal Mode</Text>
-  //           <View>
-  //             <Switch
-  //               trackColor={{ false: DarkGray, true: Gold }}
-  //               thumbColor={isNormalMode ? White : Gray}
-  //               ios_backgroundColor={DarkGray}
-  //               onValueChange={toggleNormalMode}
-  //               value={isNormalMode}
-  //             />
-  //           </View>
-  //         </View>
-          
-  //         <View style={styles.toggleCard}>
-  //           <Text style={styles.toggleLabel}>Driver Mode</Text>
-  //           <View>
-  //             <Switch
-  //               trackColor={{ false: DarkGray, true: Gold }}
-  //               thumbColor={isDriverMode ? White : Gray}
-  //               ios_backgroundColor={DarkGray}
-  //               onValueChange={toggleDriverMode}
-  //               value={isDriverMode}
-  //             />
-  //           </View>
-  //         </View>
-  //       </View>
+  const requestLocationPermission = async () => {
+    const result = await request(
+      Platform.OS === 'ios'
+        ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+        : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+    );
+  
+    return result === 'granted';
+  };
 
-              
-  //       <MapView
-  //       style={styles.map}
-  //       initialRegion={{
-  //         latitude: 37.78825,
-  //         longitude: -122.4324,
-  //         latitudeDelta: 0.0922,
-  //         longitudeDelta: 0.0421,
-  //       }}
-  //     >
-  //       <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
-  //     </MapView>
-  //   </>
-  // );
+  
+  
+  // useEffect(() => {
+  //   const fetchLocation = async () => {
+  //     const granted = await requestLocationPermission();
+  //     if (!granted) {
+  //       Alert.alert('Permission Denied', 'Location permission is required.');
+  //       return;
+  //     }
+  
+  //     Geolocation.getCurrentPosition(
+  //       position => {
+  //         const { latitude, longitude } = position.coords;
+  //         setLocation({
+  //           latitude,
+  //           longitude,
+  //           latitudeDelta: 0.01,
+  //           longitudeDelta: 0.01,
+  //         });
+  //       },
+  //       error => {
+  //         console.error(error.code, error.message);
+  //       },
+  //       {
+  //         enableHighAccuracy: true,
+  //         timeout: 15000,
+  //         maximumAge: 10000,
+  //       }
+  //     );
+  //   };
+  
+  //   fetchLocation();
+  // }, []);
+  
+
 
   return (
     <>

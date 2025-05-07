@@ -3,6 +3,7 @@ import {
   SafeAreaView, 
   StyleSheet, 
   Text, 
+  TouchableOpacity, 
   View,
 } from 'react-native'
 import { Black, Gold, Gray, LightGold, White } from '../../constants/Color'
@@ -95,13 +96,13 @@ export default function ApprovalScreen() {
           )}
         </TouchableOpacity> */}
         
-        {/* <TouchableOpacity 
+        <TouchableOpacity
           style={styles.supportButton}
-          onPress={handleContactSupport}
+          onPress={() => navigation.navigate('Main')}
         >
           <Ionicons name="mail-outline" size={20} color={White} />
-          <Text style={styles.supportButtonText}>Contact Support</Text>
-        </TouchableOpacity> */}
+          <Text style={styles.supportButtonText}>Test</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
