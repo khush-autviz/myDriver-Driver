@@ -12,34 +12,57 @@ import {Black, Gold, Gray, White} from '../../constants/Color';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Logo from '../../assets/logo/mainLogo.svg';
+import { useMutation } from '@tanstack/react-query';
+import { authSignin } from '../../constants/Api';
 
 export default function Signin() {
   const navigation: any = useNavigation();
   const [number, setnumber] = useState('');
+  const [mobileNumber, setmobileNumber] = useState('')
+
+  // signin
+  const authSiginMutation = useMutation({
+    mutationFn: authSignin,
+    onSuccess: (response) => {
+      console.log('auth signin success', response);
+      navigation.navigate('OtpScreen', {mobileNumber});
+    },
+    onError: (error) => {
+      console.log('signin error', error);
+    },
+  })
 
   const handleSignin = async () => {
     if (number.trim() === '') {
+      console.log('number is empty');
       return null;
     }
 
-    try {
-      const phone = `+91${number}`;
+    const phone = `+91${number}`;
+      setmobileNumber(phone)
       console.log('phone', phone);
 
-      const response = await axios.post('http://localhost:3000/auth/signin', {
-        phone,
-      });
 
-      console.log('signin success', response);
+    // try {
+    //   const phone = `+91${number}`;
+    //   console.log('phone', phone);
 
-      if (response.data.data.existingUser == false) {
-        navigation.navigate('Signup', {phone});
-      } else {
-        navigation.navigate('OtpScreen', {phone});
-      }
-    } catch (error) {
-      console.log('signin error', error);
-    }
+    //   const response = await axios.post('http://localhost:3000/auth/signin', {
+    //     phone,
+    //   });
+
+    //   console.log('signin success', response);
+
+    //   if (response.data.data.existingUser == false) {
+    //     navigation.navigate('Signup', {phone});
+    //   } else {
+    //     navigation.navigate('OtpScreen', {phone});
+    //   }
+    // } catch (error) {
+    //   console.log('signin error', error);
+    // }
+
+    authSiginMutation.mutateAsync({phone})
   };
 
   return (

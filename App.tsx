@@ -19,6 +19,9 @@ import SplashScreen from 'react-native-splash-screen';
 // import TripDetails from './src/components/TripDetails';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Signin from './src/components/auth/Signin';
+import VehicleDetails from './src/components/auth/VehicleDetails';
+import VehicleDocuments from './src/components/auth/VehicleDocuments';
+import ApprovalScreen from './src/components/auth/ApprovalScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -88,13 +91,16 @@ export default function App() {
         ) : null}
 
         {/* Auth Screens */}
-        <Stack.Screen name="Signin" component={Signin} />
-        {/* <Stack.Screen name="Signin" component={MainTabs} /> */}
+        <Stack.Screen name="Signin" component={Home} />
+        {/* <Stack.Screen name="Signin" component={VehicleDocuments} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="OtpScreen" component={OtpScreen} />
         {/* <Stack.Screen name="Location" component={Location} />
         <Stack.Screen name="TripDetails" component={TripDetails} /> */}
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="vehicle-details" component={VehicleDetails} />
+        <Stack.Screen name="vehicle-documents" component={VehicleDocuments} />
+        <Stack.Screen name="approval-screen" component={ApprovalScreen} />
         
 
         {/* Main Tabs */}

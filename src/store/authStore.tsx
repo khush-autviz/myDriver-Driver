@@ -3,31 +3,38 @@ import { persist, PersistOptions } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define a proper User type
-interface User {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
+// interface User {
+//   id: string;
+//   firstName?: string;
+//   lastName?: string;
+//   email?: string;
+//   phone?: string;
+// }
+
+type User = Record<string, any>;
+
+interface Token {
+  access_token?: string;
+  refresh_token?: string;
 }
 
 // Define the state interface (only the data we want to persist)
 interface AuthStateData {
   user: User | null;
-  token: string | null;
+  token: Token | null;
 }
 
 // Define the full state interface including methods
 interface AuthState extends AuthStateData {
   setUser: (user: User) => void;
-  setToken: (token: string) => void;
+  setToken: (token: Token) => void;
   logout: () => void;
 }
 
 type AuthStorePersist = PersistOptions<AuthState, AuthStateData>
 
 const persistConfig: AuthStorePersist = {
-  name: 'auth-storage',
+  name: 'driver-auth-storage',
   storage: {
     getItem: async (name) => {
       const value = await AsyncStorage.getItem(name);

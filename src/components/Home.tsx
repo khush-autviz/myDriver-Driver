@@ -1,138 +1,188 @@
-import React from 'react';
-import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
-import {WebView} from 'react-native-webview';
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Switch,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import {
   Black,
   DarkGray,
   Gold,
   Gray,
-  LightGold,
   White,
 } from '../constants/Color';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MapView, { Marker } from 'react-native-maps';
 
 export default function Home() {
+  // State for the toggle switches
+  const [isNormalMode, setIsNormalMode] = useState(false);
+  const [isDriverMode, setIsDriverMode] = useState(false);
+  
+  // Function to handle normal mode toggle
+  const toggleNormalMode = () => {
+    // If turning on normal mode, turn off driver mode
+    if (!isNormalMode) {
+      setIsNormalMode(true);
+      setIsDriverMode(false);
+    } else {
+      // Allow turning off
+      setIsNormalMode(false);
+    }
+  };
+  
+  // Function to handle driver mode toggle
+  const toggleDriverMode = () => {
+    // If turning on driver mode, turn off normal mode
+    if (!isDriverMode) {
+      setIsDriverMode(true);
+      setIsNormalMode(false);
+    } else {
+      // Allow turning off
+      setIsDriverMode(false);
+    }
+  };
+
+  // return (
+  //   <>
+  //     <StatusBar backgroundColor={Black} barStyle="light-content" />
+        
+  //       {/* Mode Toggle Section */}
+  //       <View style={styles.toggleContainer}>
+  //         <View style={styles.toggleCard}>
+  //           <Text style={styles.toggleLabel}>Normal Mode</Text>
+  //           <View>
+  //             <Switch
+  //               trackColor={{ false: DarkGray, true: Gold }}
+  //               thumbColor={isNormalMode ? White : Gray}
+  //               ios_backgroundColor={DarkGray}
+  //               onValueChange={toggleNormalMode}
+  //               value={isNormalMode}
+  //             />
+  //           </View>
+  //         </View>
+          
+  //         <View style={styles.toggleCard}>
+  //           <Text style={styles.toggleLabel}>Driver Mode</Text>
+  //           <View>
+  //             <Switch
+  //               trackColor={{ false: DarkGray, true: Gold }}
+  //               thumbColor={isDriverMode ? White : Gray}
+  //               ios_backgroundColor={DarkGray}
+  //               onValueChange={toggleDriverMode}
+  //               value={isDriverMode}
+  //             />
+  //           </View>
+  //         </View>
+  //       </View>
+
+              
+  //       <MapView
+  //       style={styles.map}
+  //       initialRegion={{
+  //         latitude: 37.78825,
+  //         longitude: -122.4324,
+  //         latitudeDelta: 0.0922,
+  //         longitudeDelta: 0.0421,
+  //       }}
+  //     >
+  //       <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
+  //     </MapView>
+  //   </>
+  // );
+
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: DarkGray,
-          borderRadius: 15,
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'row',
-        }}>
-        <Ionicons
-          name="search"
-          size={24}
-          color={Gray}
-          style={{paddingStart: 10}}
-        />
-        <TextInput
-          style={{height: 50, paddingHorizontal: 10}}
-          placeholder="Enter pick up point"
-        />
-      </View>
-      <Text
-        style={{
-          color: LightGold,
-          fontWeight: '700',
-          fontSize: 20,
-          marginTop: 20,
-        }}>
-        Categories
-      </Text>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginTop: 30,
-          justifyContent: 'space-between',
-        }}>
-        <View
-          style={{
-            backgroundColor: DarkGray,
-            height: 70,
-            borderRadius: 8,
-            width: 80,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingBottom: 5,
-            paddingTop: 5,
-          }}>
-          <Ionicons name="car-sport" size={40} color={Gold} />
-          <Text style={{color: Gold}}>Car</Text>
+    <>
+      <StatusBar backgroundColor={Black} barStyle="light-content" />
+      <View style={styles.container}>
+        {/* Mode Toggle Section */}
+        <View style={styles.toggleContainer}>
+          <View style={styles.toggleCard}>
+            <Text style={styles.toggleLabel}>Normal Mode</Text>
+            <Switch
+              trackColor={{ false: DarkGray, true: Gold }}
+              thumbColor={isNormalMode ? White : Gray}
+              ios_backgroundColor={DarkGray}
+              onValueChange={toggleNormalMode}
+              value={isNormalMode}
+            />
+          </View>
+  
+          <View style={styles.toggleCard}>
+            <Text style={styles.toggleLabel}>Driver Mode</Text>
+            <Switch
+              trackColor={{ false: DarkGray, true: Gold }}
+              thumbColor={isDriverMode ? White : Gray}
+              ios_backgroundColor={DarkGray}
+              onValueChange={toggleDriverMode}
+              value={isDriverMode}
+            />
+          </View>
         </View>
-        <View
-          style={{
-            backgroundColor: DarkGray,
-            height: 70,
-            borderRadius: 8,
-            width: 80,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingBottom: 5,
-            paddingTop: 5,
-          }}>
-          <Ionicons name="bicycle" size={40} color={Gold} />
-          <Text style={{color: Gold}}>Bike</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: DarkGray,
-            height: 70,
-            borderRadius: 8,
-            width: 80,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingBottom: 5,
-            paddingTop: 5,
-          }}>
-          <Ionicons name="people-circle" size={40} color={Gold} />
-          <Text style={{color: Gold}}>Rider</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: DarkGray,
-            height: 70,
-            borderRadius: 8,
-            width: 80,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingBottom: 5,
-            paddingTop: 5,
-          }}>
-          <Ionicons name="apps" size={40} color={Gold} />
-          <Text style={{color: Gold}}>More</Text>
+  
+        {/* Map Section */}
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
+          </MapView>
         </View>
       </View>
-      <View style={{backgroundColor: '#ffdcd1', height: 150, marginTop: 30, borderRadius: 16, padding:10}}>
-          <Text style={{fontSize: 20, fontWeight: '700', marginTop: 10}}>40% off Rides ends</Text>
-          <Text style={{fontSize: 20, fontWeight: '700'}}>soon!</Text>
-          <TouchableOpacity style={{backgroundColor: Black, width: 100, padding: 5, marginTop: 20, borderRadius: 16}}>
-            <Text style={{color: LightGold, textAlign: 'center', fontWeight: '500'}}>Book now</Text>
-          </TouchableOpacity>
-      </View>
-      <View style={{backgroundColor: '#d1ffbd', height: 150, marginTop: 20, borderRadius: 16, padding:10}}>
-          <Text style={{fontSize: 20, fontWeight: '700', marginTop: 10}}>Schedule your trip</Text>
-          <Text style={{fontSize: 20, fontWeight: '700'}}>now!</Text>
-          <TouchableOpacity style={{backgroundColor: Black, width: 100, padding: 5, marginTop: 20, borderRadius: 16}}>
-            <Text style={{color: LightGold, textAlign: 'center', fontWeight: '500'}}>Try reserve</Text>
-          </TouchableOpacity>
-      </View>
-    </View>
+    </>
   );
+  
+
 }
 
 const styles = StyleSheet.create({
+  toggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  toggleCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 12,
+    padding: 10,
+    width: '48%',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  toggleLabel: {
+    color: White,
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  toggleDescription: {
+    color: Gray,
+    fontSize: 14,
+    textAlign: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: Black,
-    paddingHorizontal: 20,
-    paddingTop: 30,
+    padding: 10,
   },
+  mapContainer: {
+    flex: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
+  },
+  map: {
+    flex: 1,
+    borderRadius: 10,
+  },
+  
 });

@@ -13,16 +13,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import Logo from '../../assets/logo/mainLogo.svg'
 import { useAuthStore } from '../../store/authStore';
+import { useMutation } from '@tanstack/react-query';
+import { authSignup } from '../../constants/Api';
 
 export default function Signup() {
-  const setUser = useAuthStore(state => state.setUser)
-  // const route = useRoute();
-  // const {phone}: any = route.params;
+  const SETUSER = useAuthStore(state => state.setUser)
+  const SETTOKEN = useAuthStore(state => state.setToken)
+  const route = useRoute();
+  const {mobileNumber}: any = route.params;
   const [formData, setformData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    // phone,
+    phone: mobileNumber,
   });
   const navigation: any = useNavigation();
 
@@ -32,6 +35,20 @@ export default function Signup() {
       [field]: value,
     }));
   };
+
+  // register mutation
+  const registerMutation = useMutation({
+    mutationFn: authSignup,
+    onSuccess: (response) => {
+      console.log("register mutation success", response);
+      SETUSER(response?.data?.user)
+      SETTOKEN({access_token: response.data.access_token, refresh_token: response.data.refresh_token})
+      navigation.navigate('Main')
+    },
+    onError: (error: any) => {
+      console.log("register mutation error", error);
+    }
+  })
 
   const handleSignup = async () => {
     const {firstName, lastName, email} = formData;
@@ -43,20 +60,22 @@ export default function Signup() {
       return null;
     }
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/auth/register',
-        formData,
-      );
-      console.log('register succss', response);
-      if (response.data.data.userId) {
-        navigation.navigate('OtpScreen', 
-          // {phone}
-        );
-      }
-    } catch (error) {
-      console.log('register error', error);
-    }
+    registerMutation.mutateAsync(formData)
+
+    // try {
+    //   const response = await axios.post(
+    //     'http://localhost:3000/auth/register',
+    //     formData,
+    //   );
+    //   console.log('register succss', response);
+    //   if (response.data.data.userId) {
+    //     navigation.navigate('OtpScreen', 
+    //       // {phone}
+    //     );
+    //   }
+    // } catch (error) {
+    //   console.log('register error', error);
+    // }
   };
 
   return (

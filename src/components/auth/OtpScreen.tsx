@@ -12,12 +12,16 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Black, Gold, Gray, LightGold, White} from '../../constants/Color';
 import axios from 'axios';
 import Logo from '../../assets/logo/mainLogo.svg';
+import { useMutation } from '@tanstack/react-query';
+import { verifyOtp } from '../../constants/Api';
+import { useAuthStore } from '../../store/authStore';
 
 export default function OtpScreen() {
-  // const route = useRoute();
-  // const {phone}: any = route?.params;
+  const route = useRoute();
+  const {mobileNumber}: any = route.params;
   const [otp, setOtp] = useState(['', '', '', '']);
   const navigation: any = useNavigation();
+  const SETUSER = useAuthStore(state => state.setUser)
 
   const inputRefs = [
     useRef<TextInput>(null),
@@ -55,28 +59,53 @@ export default function OtpScreen() {
     backspacePressed.current = false;
   };
 
+  // verify otp mutation
+  const verifyOtpMutation = useMutation({
+    mutationFn: verifyOtp,
+    onSuccess: (response) => {
+      console.log('verify otp success', response);
+      if (response.data.user.registrationComplete) {
+        SETUSER(response?.data?.data?.user)
+        navigation.navigate('Main')
+      } else {
+        navigation.navigate('Signup', {mobileNumber})
+      }
+    },
+    onError: (error) => {
+      console.log('veriify otp error', error); 
+    },
+  })
+
   const handleVerify = async () => {
     if (otp.join('').length != 4) {
       return null;
     }
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/auth/verifyOtp',
-        {
-          otp: otp.join(''),
-          // phone,
-        },
-      );
-      console.log("verify otp success", response);
 
-      if(response.data.data.access_token) {
-        navigation.navigate('Main')
-      }
+    console.log(mobileNumber, otp.join(''));
+    
+
+    verifyOtpMutation.mutateAsync({
+      phone: mobileNumber,
+      otp: otp.join(''),
+    })
+
+    // try {
+    //   const response = await axios.post(
+    //     'http://localhost:3000/auth/verifyOtp',
+    //     {
+    //       otp: otp.join(''),
+    //       phone: mobileNumber,
+    //     },
+    //   );
+    //   console.log("verify otp success", response);
+
+    //   if(response.data.data.access_token) {
+    //     navigation.navigate('Main')
+    //   }
       
-    } catch (error) {
-      console.log("veriify otp error", error);
-      
-    }
+    // } catch (error) {
+    //   console.log("veriify otp error", error); 
+    // }
   };
 
   return (
