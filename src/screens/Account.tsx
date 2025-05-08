@@ -1,13 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Black, DarkGray, Gold, Gray, LightGold, White } from '../constants/Color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useAuthStore } from '../store/authStore'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Account() {
 
   const USER = useAuthStore(state => state.user)
+  const LOGOUT = useAuthStore(state => state.logout)
+  const navigation: any = useNavigation()
+
+  const handleLogout = () => {
+    navigation.navigate('Signin')
+    LOGOUT()
+  }
 
   return (
     <SafeAreaView style={{backgroundColor: Black, flex: 1, padding: 20}}>
@@ -49,10 +57,10 @@ export default function Account() {
         <Ionicons name='leaf' size={20} color={Gray}/>
         <Text style={{color: Gray, marginStart: 30, fontSize: 16, fontWeight: '700' }}>Send a gift</Text>
       </View>
-      <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, alignItems: 'center'}}>
+      <TouchableOpacity onPress={handleLogout} style={{display: 'flex', flexDirection: 'row', marginTop: 30, alignItems: 'center'}}>
         <Ionicons name='log-out' size={20} color={Gray}/>
         <Text style={{color: Gray, marginStart: 30, fontSize: 16, fontWeight: '700' }}>Logout</Text>
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

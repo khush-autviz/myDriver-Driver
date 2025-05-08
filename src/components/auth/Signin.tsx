@@ -38,7 +38,7 @@ export default function Signin() {
       return null;
     }
 
-    const phone = `+91${number}`;
+    const phone = `+91${number}`;   // india
       setmobileNumber(phone)
       console.log('phone', phone);
 
@@ -105,7 +105,7 @@ export default function Signin() {
         onPress={handleSignin}>
         <Text style={{color: White, fontWeight: '500'}}>Sign In</Text>
       </TouchableOpacity>
-      <View style={styles.lineContainer}>
+      {/* <View style={styles.lineContainer}>
         <View style={styles.line} />
         <View style={styles.line} />
       </View>
@@ -117,15 +117,15 @@ export default function Signin() {
           flexDirection: 'row',
           marginTop: 20,
         }}>
-        {/* <Text style={{color: White, fontWeight: '500', fontSize: 16}}>
+        <Text style={{color: White, fontWeight: '500', fontSize: 16}}>
           Find your account{' '}
-        </Text> */}
-        {/* <TouchableOpacity onPress={() => navigation.navigate('OtpScreen')}>
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('OtpScreen')}>
           <Text style={{color: Gold, fontWeight: '500', fontSize: 16}}>
             Sign Up
           </Text>
-        </TouchableOpacity> */}
-      </View>
+        </TouchableOpacity>
+      </View> */}
     </SafeAreaView>
   );
 }

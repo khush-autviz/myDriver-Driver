@@ -70,16 +70,16 @@ export default function VehicleDocuments() {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
         );
         
-        if (!result) {
-          // Permission not granted yet, show an explanation
-          Alert.alert(
-            'Storage Permission Required',
-            'This app needs access to your storage to upload vehicle images. Please grant permission when prompted.',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') }
-            ]
-          );
-        }
+        // if (!result) {
+        //   // Permission not granted yet, show an explanation
+        //   Alert.alert(
+        //     'Storage Permission Required',
+        //     'This app needs access to your storage to upload vehicle images. Please grant permission when prompted.',
+        //     [
+        //       { text: 'OK', onPress: () => console.log('OK Pressed') }
+        //     ]
+        //   );
+        // }
       } catch (err) {
         console.warn(err);
       }

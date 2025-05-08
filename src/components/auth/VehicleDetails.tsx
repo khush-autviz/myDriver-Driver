@@ -559,16 +559,16 @@ export default function VehicleDetails() {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
         );
         
-        if (!result) {
-          // Permission not granted yet, show an explanation
-          Alert.alert(
-            'Storage Permission Required',
-            'This app needs access to your storage to upload vehicle images. Please grant permission when prompted.',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') }
-            ]
-          );
-        }
+        // if (!result) {
+        //   // Permission not granted yet, show an explanation
+        //   Alert.alert(
+        //     'Storage Permission Required',
+        //     'This app needs access to your storage to upload vehicle images. Please grant permission when prompted.',
+        //     [
+        //       { text: 'OK', onPress: () => console.log('OK Pressed') }
+        //     ]
+        //   );
+        // }
       } catch (err) {
         console.warn(err);
       }
@@ -645,14 +645,14 @@ const requestStoragePermission = async () => {
             console.log('Storage permission granted');
             return true;
           } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-            Alert.alert(
-              'Permission Required',
-              'Storage permission is required to upload images. Please enable it in app settings.',
-              [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Open Settings', onPress: openSettings },
-              ]
-            );
+            // Alert.alert(
+            //   'Permission Required',
+            //   'Storage permission is required to upload images. Please enable it in app settings.',
+            //   [
+            //     { text: 'Cancel', style: 'cancel' },
+            //     { text: 'Open Settings', onPress: openSettings },
+            //   ]
+            // );
             return false;
           } else {
             console.log('Storage permission denied');
